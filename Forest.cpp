@@ -304,79 +304,86 @@ int ia = 0, ip = 0, _x, _y;
 
 int Forest::less()
 {
-    n_plants--;
-    plants = new Plant*[n_plants];
-    if (!plants) return 4;
-    for (int i=0; i<n_plants; i++)
+    if (n_plants == 0) 
     {
-        int r = rand()%3;           // The amount of plants is also given from beyond, and each plant can also decide
-        switch (r) {
-        case 0:
+        return 0;
+    }
+    else
+    {
+        n_plants--;
+        plants = new Plant*[n_plants];
+        if (!plants) return 4;
+        for (int i=0; i<n_plants; i++)
+        {
+            int r = rand()%3;           // The amount of plants is also given from beyond, and each plant can also decide
+            switch (r) {
+            case 0:
 
 
-            if (!(plants[i] = new Sundew(1)))
-                return 5;
-            break;
+                if (!(plants[i] = new Sundew(1)))
+                    return 5;
+                break;
 
 
-        case 1:
+            case 1:
 
 
-            if (!(plants[i] = new Flower(1)))
-                return 6;
-            break;
+                if (!(plants[i] = new Flower(1)))
+                    return 6;
+                break;
 
 
-        case 2:
+            case 2:
 
-            if (!(plants[i] = new Mushroom(1))) {
+                if (!(plants[i] = new Mushroom(1))) {
 
-                return 9;
+                    return 9;
+                }
+                break;
+
             }
-            break;
-
         }
+    int ia = 0, ip = 0, _x, _y;
+
+
+        X = plans_X, Y = plans_Y;
+
+        // We try to set them apart from each other.
+        bool **taken;
+        taken = new bool*[X];
+        if (!taken) return 7;
+        for (int i=0; i<X; i++)
+            if (!(taken[i] = new bool[Y]))
+                return 8;
+
+        for (int i=0; i<X; i++)
+            for (int j=0; j<Y; j++)
+                taken[i][j] = false;
+
+        while (ip < n_plants)
+        {
+            // Looking through all the animals and plants, one at a time, and finding each one a cozy spot.
+            // It might take time if the forest is small and crowded.
+            _x = rand()%X;
+            _y = rand()%Y;
+            if (taken[_x][_y]) continue;
+            plants[ip]->set_x(_x);
+            plants[ip]->set_y(_y);
+            plants[ip]->setSprite();
+            taken[_x][_y] = true;
+            ip++;
+        }
+        for (int i=0; i<X; i++)
+            delete[] taken[i];
+        delete taken;
+
+        /* sf::ContextSettings contextSettings;
+        contextSettings.depthBits = 24;
+        window = new sf::RenderWindow(sf::VideoMode(SX, SY), "Forest", sf::Style::Default, contextSettings);
+        window->setActive();
+    */
+        return 0;
     }
-int ia = 0, ip = 0, _x, _y;
-
-
-    X = plans_X, Y = plans_Y;
-
-    // We try to set them apart from each other.
-    bool **taken;
-    taken = new bool*[X];
-    if (!taken) return 7;
-    for (int i=0; i<X; i++)
-        if (!(taken[i] = new bool[Y]))
-            return 8;
-
-    for (int i=0; i<X; i++)
-        for (int j=0; j<Y; j++)
-            taken[i][j] = false;
-
-    while (ip < n_plants)
-    {
-        // Looking through all the animals and plants, one at a time, and finding each one a cozy spot.
-        // It might take time if the forest is small and crowded.
-        _x = rand()%X;
-        _y = rand()%Y;
-        if (taken[_x][_y]) continue;
-        plants[ip]->set_x(_x);
-        plants[ip]->set_y(_y);
-        plants[ip]->setSprite();
-        taken[_x][_y] = true;
-        ip++;
-    }
-    for (int i=0; i<X; i++)
-        delete[] taken[i];
-    delete taken;
-
-   /* sf::ContextSettings contextSettings;
-    contextSettings.depthBits = 24;
-    window = new sf::RenderWindow(sf::VideoMode(SX, SY), "Forest", sf::Style::Default, contextSettings);
-    window->setActive();
-*/
-    return 0;
 }
 
 
