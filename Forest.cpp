@@ -215,7 +215,7 @@ int Forest::init(int na, int np, int _X, int _Y)
 
     for (int i=0; i<X; i++)
         delete[] taken[i];
-    delete taken;
+    delete[] taken;
 
     sf::ContextSettings contextSettings;
     contextSettings.depthBits = 24;
@@ -292,7 +292,7 @@ int ia = 0, ip = 0, _x, _y;
     }
     for (int i=0; i<X; i++)
         delete[] taken[i];
-    delete taken;
+    delete[] taken;
 
    /* sf::ContextSettings contextSettings;
     contextSettings.depthBits = 24;
@@ -375,7 +375,7 @@ int Forest::less()
         }
         for (int i=0; i<X; i++)
             delete[] taken[i];
-        delete taken;
+        delete[] taken;
 
         /* sf::ContextSettings contextSettings;
         contextSettings.depthBits = 24;
